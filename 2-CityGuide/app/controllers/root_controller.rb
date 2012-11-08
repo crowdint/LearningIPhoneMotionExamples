@@ -75,4 +75,10 @@ class RootController < UIViewController
     end
   end
 
+  def tableView(table_view, commitEditingStyle: editing, forRowAtIndexPath: index_path)
+    if editing == UITableViewCellEditingStyleDelete
+      cities.delete_at(index_path.row)
+      table_view.deleteRowsAtIndexPaths([index_path], withRowAnimation:UITableViewRowAnimationLeft)
+    end
+  end
 end

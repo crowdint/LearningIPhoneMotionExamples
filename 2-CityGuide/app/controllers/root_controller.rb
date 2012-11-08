@@ -42,9 +42,18 @@ class RootController < UIViewController
   end
 
   def setEditing(editing, animated:animated)
-    super
-    @table_view.setEditing(editing, animated:animated)
-    @table_view.reloadData
+    if(editing != self.editing?)
+      super
+
+      @table_view.setEditing(editing, animated:animated)
+      indexes = [NSIndexPath.indexPathForRow(cities.size, inSection:0)]
+
+      if self.editing?
+        @table_view.insertRowsAtIndexPaths(indexes, withRowAnimation:UITableViewRowAnimationLeft)
+      else
+        @table_view.deleteRowsAtIndexPaths(indexes, withRowAnimation:UITableViewRowAnimationLeft)
+      end
+    end
   end
 
   # Table View delegate methods

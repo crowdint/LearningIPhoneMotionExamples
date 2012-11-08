@@ -23,6 +23,10 @@ build your own.
 
 Happy iOS coding
 
+# Contributing
+
+Feel free to send Pull Requests with improvements to the code. As I mentioned,
+we're just learning and there might be ways to optimize what we're doing.
 
 # About the author
 

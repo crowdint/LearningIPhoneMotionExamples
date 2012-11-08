@@ -1,6 +1,8 @@
 class RootController < UIViewController
+  attr_accessor :cities
+
   def viewDidLoad
-    @data = City.build_test_data
+    self.cities = City.build_test_data
 
     @table_view            = UITableView.alloc.initWithFrame(self.view.bounds)
     @table_view.dataSource = self
@@ -14,7 +16,7 @@ class RootController < UIViewController
   # DataSource methods
 
   def tableView(table_view, numberOfRowsInSection: section)
-    @data.size
+    cities.size
   end
 
   def tableView(table_view, cellForRowAtIndexPath: index_path)
@@ -24,7 +26,7 @@ class RootController < UIViewController
       UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuse_identifier)
     end
 
-    cell.textLabel.text = @data[index_path.row].name
+    cell.textLabel.text = cities[index_path.row].name
 
     cell
   end
@@ -32,7 +34,7 @@ class RootController < UIViewController
   # Table View delegate methods
 
   def tableView(table_view, didSelectRowAtIndexPath: index_path)
-    city_controller = CityController.alloc.initWithCity(@data[index_path.row])
+    city_controller = CityController.alloc.initWithCity(cities[index_path.row])
 
     navigationController.pushViewController(city_controller, animated:true)
 

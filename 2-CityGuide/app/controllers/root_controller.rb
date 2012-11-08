@@ -10,13 +10,17 @@ class RootController < UIViewController
 
     self.view.addSubview @table_view
 
+    self.navigationItem.rightBarButtonItem = self.editButtonItem
     self.title = "City Guide"
   end
 
   # DataSource methods
 
   def tableView(table_view, numberOfRowsInSection: section)
-    cities.size
+    count = cities.size
+    count += 1 if self.editing?
+
+    count
   end
 
   def tableView(table_view, cellForRowAtIndexPath: index_path)
@@ -26,9 +30,21 @@ class RootController < UIViewController
       UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuse_identifier)
     end
 
-    cell.textLabel.text = cities[index_path.row].name
+    if index_path.row < cities.count
+      cell.textLabel.text = cities[index_path.row].name
+    else
+      cell.textLabel.text       = "Add New City"
+      cell.textLabel.textColor  = UIColor.lightGrayColor
+      cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator
+    end
 
     cell
+  end
+
+  def setEditing(editing, animated:animated)
+    super
+    @table_view.setEditing(editing, animated:animated)
+    @table_view.reloadData
   end
 
   # Table View delegate methods
@@ -41,4 +57,13 @@ class RootController < UIViewController
     table_view.deselectRowAtIndexPath(index_path, animated:true)
     true
   end
+
+  def tableView(table_view, editingStyleForRowAtIndexPath: index_path)
+    if index_path.row < cities.count
+      UITableViewCellEditingStyleDelete
+    else
+      UITableViewCellEditingStyleInsert
+    end
+  end
+
 end

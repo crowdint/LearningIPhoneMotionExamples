@@ -11,6 +11,7 @@ class RootController < UIViewController
     self.view.addSubview @table_view
 
     self.navigationItem.rightBarButtonItem = self.editButtonItem
+    @table_view.allowsSelectionDuringEditing = true
     self.title = "City Guide"
   end
 
@@ -59,9 +60,15 @@ class RootController < UIViewController
   # Table View delegate methods
 
   def tableView(table_view, didSelectRowAtIndexPath: index_path)
-    city_controller = CityController.alloc.initWithCity(cities[index_path.row])
+    if ((index_path.row < cities.count) && !self.editing?)
+      city_controller = CityController.alloc.initWithCity(cities[index_path.row])
+      navigationController.pushViewController(city_controller, animated:true)
+    end
 
-    navigationController.pushViewController(city_controller, animated:true)
+    if (index_path.row == cities.count && self.editing?)
+      add_new_city_controller = AddNewCityController.alloc.init
+      navigationController.pushViewController(add_new_city_controller, animated:true)
+    end
 
     table_view.deselectRowAtIndexPath(index_path, animated:true)
     true

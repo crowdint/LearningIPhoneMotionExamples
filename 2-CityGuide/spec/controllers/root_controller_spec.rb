@@ -1,7 +1,8 @@
 describe RootController do
   before do
-    nav_controller = UINavigationController.alloc.initWithNibName(nil, bundle: nil)
-    window.rootViewController = nav_controller
+    App.delegate.cities            = City.build_test_data
+    nav_controller                 = UINavigationController.alloc.initWithNibName(nil, bundle: nil)
+    window.rootViewController      = nav_controller
     nav_controller.viewControllers = [ controller ]
   end
 

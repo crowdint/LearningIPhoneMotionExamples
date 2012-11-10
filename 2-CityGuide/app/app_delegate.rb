@@ -1,6 +1,10 @@
 class AppDelegate
+  attr_accessor :cities
+
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     return true if RUBYMOTION_ENV == 'test'
+
+    cities = City.build_test_data
 
     @root_controller = RootController.alloc.initWithNibName(nil, bundle: nil)
 

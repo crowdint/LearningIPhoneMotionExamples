@@ -1,8 +1,6 @@
 class RootController < UIViewController
-  attr_accessor :cities
-
   def viewDidLoad
-    self.cities = City.build_test_data
+    @cities = App.delegate.cities
 
     @table_view            = UITableView.alloc.initWithFrame(self.view.bounds)
     @table_view.dataSource = self
@@ -18,7 +16,7 @@ class RootController < UIViewController
   # DataSource methods
 
   def tableView(table_view, numberOfRowsInSection: section)
-    count = cities.size
+    count = @cities.size
     count += 1 if self.editing?
 
     count
@@ -31,8 +29,8 @@ class RootController < UIViewController
       UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuse_identifier)
     end
 
-    if index_path.row < cities.count
-      cell.textLabel.text = cities[index_path.row].name
+    if index_path.row < @cities.count
+      cell.textLabel.text = @cities[index_path.row].name
     else
       cell.textLabel.text       = "Add New City"
       cell.textLabel.textColor  = UIColor.lightGrayColor
@@ -47,7 +45,7 @@ class RootController < UIViewController
       super
 
       @table_view.setEditing(editing, animated:animated)
-      indexes = [NSIndexPath.indexPathForRow(cities.size, inSection:0)]
+      indexes = [NSIndexPath.indexPathForRow(@cities.size, inSection:0)]
 
       if self.editing?
         @table_view.insertRowsAtIndexPaths(indexes, withRowAnimation:UITableViewRowAnimationLeft)
@@ -60,12 +58,12 @@ class RootController < UIViewController
   # Table View delegate methods
 
   def tableView(table_view, didSelectRowAtIndexPath: index_path)
-    if ((index_path.row < cities.count) && !self.editing?)
-      city_controller = CityController.alloc.initWithCity(cities[index_path.row])
+    if ((index_path.row < @cities.count) && !self.editing?)
+      city_controller = CityController.alloc.initWithCity(@cities[index_path.row])
       navigationController.pushViewController(city_controller, animated:true)
     end
 
-    if (index_path.row == cities.count && self.editing?)
+    if (index_path.row == @cities.count && self.editing?)
       add_new_city_controller = AddNewCityController.alloc.init
       navigationController.pushViewController(add_new_city_controller, animated:true)
     end
@@ -75,7 +73,7 @@ class RootController < UIViewController
   end
 
   def tableView(table_view, editingStyleForRowAtIndexPath: index_path)
-    if index_path.row < cities.count
+    if index_path.row < @cities.count
       UITableViewCellEditingStyleDelete
     else
       UITableViewCellEditingStyleInsert
@@ -84,7 +82,7 @@ class RootController < UIViewController
 
   def tableView(table_view, commitEditingStyle: editing, forRowAtIndexPath: index_path)
     if editing == UITableViewCellEditingStyleDelete
-      cities.delete_at(index_path.row)
+      @cities.delete_at(index_path.row)
       table_view.deleteRowsAtIndexPaths([index_path], withRowAnimation:UITableViewRowAnimationLeft)
     end
   end

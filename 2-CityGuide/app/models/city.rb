@@ -5,10 +5,10 @@ class City
     attr_accessor attribute
   end
 
-  def initialize(hash=nil)
-    ATTRIBUTES.each do |a|
-      self.send("#{a}=", hash[a]) if hash[a]
-    end
+  def initialize(hash={})
+  	ATTRIBUTES.each do |a|
+  		self.send("#{a}=", hash[a]) if hash[a]
+  	end
   end
 
   def self.build_test_data
@@ -27,7 +27,7 @@ class City
         new(:name => 'Sydney',
              :description => 'The largest city in Australia.',
              :picture => UIImage.imageNamed('Sydney.jpg')),
-    
+
       City.
         new(:name => 'Madrid',
              :description => 'The capital and largest city of Spain.',

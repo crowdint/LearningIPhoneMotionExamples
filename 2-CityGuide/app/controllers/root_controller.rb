@@ -1,15 +1,17 @@
 class RootController < UIViewController
+  attr_accessor :table_view
+
   def viewDidLoad
     @cities = App.delegate.cities
 
-    @table_view            = UITableView.alloc.initWithFrame(self.view.bounds)
-    @table_view.dataSource = self
-    @table_view.delegate   = self
+    self.table_view            = UITableView.alloc.initWithFrame(self.view.bounds)
+    self.table_view.dataSource = self
+    self.table_view.delegate   = self
 
-    self.view.addSubview @table_view
+    self.view.addSubview self.table_view
 
     self.navigationItem.rightBarButtonItem = self.editButtonItem
-    @table_view.allowsSelectionDuringEditing = true
+    self.table_view.allowsSelectionDuringEditing = true
     self.title = "City Guide"
   end
 
@@ -44,13 +46,13 @@ class RootController < UIViewController
     if(editing != self.editing?)
       super
 
-      @table_view.setEditing(editing, animated:animated)
+      self.table_view.setEditing(editing, animated:animated)
       indexes = [NSIndexPath.indexPathForRow(@cities.size, inSection:0)]
 
       if self.editing?
-        @table_view.insertRowsAtIndexPaths(indexes, withRowAnimation:UITableViewRowAnimationLeft)
+        self.table_view.insertRowsAtIndexPaths(indexes, withRowAnimation:UITableViewRowAnimationLeft)
       else
-        @table_view.deleteRowsAtIndexPaths(indexes, withRowAnimation:UITableViewRowAnimationLeft)
+        self.table_view.deleteRowsAtIndexPaths(indexes, withRowAnimation:UITableViewRowAnimationLeft)
       end
     end
   end

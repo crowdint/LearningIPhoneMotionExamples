@@ -47,14 +47,27 @@ class RootController < UIViewController
   def setEditing(editing, animated:animated)
     if(editing != self.editing?)
       super
-
       self.table_view.setEditing(editing, animated:animated)
-      indexes = [NSIndexPath.indexPathForRow(@cities.size, inSection:0)]
+
+      indices = []
+      @cities.size.times do |i|
+        indices << NSIndexPath.indexPathForRow(i, inSection: 0)
+      end
+
+      last_index = [NSIndexPath.indexPathForRow(@cities.count, inSection: 0)]
 
       if self.editing?
-        self.table_view.insertRowsAtIndexPaths(indexes, withRowAnimation:UITableViewRowAnimationLeft)
+        indices.each do |index|
+          cell = table_view.cellForRowAtIndexPath index
+          cell.setSelectionStyle UITableViewCellSelectionStyleNone
+        end
+        self.table_view.insertRowsAtIndexPaths(last_index, withRowAnimation:UITableViewRowAnimationLeft)
       else
-        self.table_view.deleteRowsAtIndexPaths(indexes, withRowAnimation:UITableViewRowAnimationLeft)
+        indices.each do |index|
+          cell = table_view.cellForRowAtIndexPath index
+          cell.setSelectionStyle UITableViewCellSelectionStyleBlue
+        end
+        self.table_view.deleteRowsAtIndexPaths(last_index, withRowAnimation:UITableViewRowAnimationLeft)
       end
     end
   end

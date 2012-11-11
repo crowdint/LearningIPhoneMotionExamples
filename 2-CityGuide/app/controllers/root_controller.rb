@@ -32,7 +32,9 @@ class RootController < UIViewController
     end
 
     if index_path.row < @cities.count
-      cell.textLabel.text = @cities[index_path.row].name
+      cell.textLabel.text       = @cities[index_path.row].name
+      cell.textColor            = UIColor.blackColor
+      cell.editingAccessoryType = UITableViewCellAccessoryNone
     else
       cell.textLabel.text       = "Add New City"
       cell.textLabel.textColor  = UIColor.lightGrayColor

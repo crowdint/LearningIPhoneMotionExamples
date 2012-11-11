@@ -42,4 +42,8 @@ class MainViewController < UIViewController
     controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal
     self.presentViewController(controller, animated: true, completion: nil)
   end
+
+  def flipside_view_controller_did_finish(controller)
+    self.dismissViewControllerAnimated(true, completion:nil)
+  end
 end

@@ -12,7 +12,8 @@ class CityController < UIViewController
     @text_view.font     = UIFont.systemFontOfSize(14)
 
     @image_view       = UIImageView.alloc.initWithFrame([[35, 27], [250, 188]])
-    @image_view.image = @city.picture
+
+    @image_view.image = (@city.picture || UIImage.imageNamed("QuestionMark.jpg"))
 
     self.title = @city.name
     self.view.addSubview @text_view

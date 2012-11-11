@@ -36,6 +36,28 @@ class MainViewController < UIViewController
     self.view.addSubview(@info_button)
   end
 
+  def viewWillAppear(animated)
+    device = UIDevice.currentDevice
+    device.batteryMonitoringEnabled = App.delegate.monitor_battery
+
+    if device.batteryMonitoringEnabled?
+      NSNotificationCenter.defaultCenter.
+          addObserver(self, selector: :battery_changed, name: "UIDeviceBatteryLevelDidChangeNotification", object: nil)
+      NSNotificationCenter.defaultCenter.
+          addObserver(self, selector: :battery_changed, name: "UIDeviceBatteryStateDidChangeNotification", object: nil)
+    else
+      NSNotificationCenter.defaultCenter.
+          removeObserver(self, name: "UIDeviceBatteryLevelDidChangeNotification", object: nil)
+      NSNotificationCenter.defaultCenter.
+          removeObserver(self, name: "UIDeviceBatteryStateDidChangeNotification", object: nil)
+    end
+
+    @level_label.text = self.battery_level
+    @state_label.text = self.battery_state(device.batteryState)
+
+    super
+  end
+
   # Target Action for the info button
   def show_info
     controller = FlipsideViewController.alloc.initWithNibName(nil, bundle:nil)
@@ -45,5 +67,38 @@ class MainViewController < UIViewController
 
   def flipside_view_controller_did_finish(controller)
     self.dismissViewControllerAnimated(true, completion:nil)
+  end
+
+  def battery_changed
+    device = UIDevice.currentDevice
+    @level_label.text = self.battery_level
+    @state_label.text = self.battery_state(device.batteryState)
+  end
+
+  def battery_level
+    device = UIDevice.currentDevice
+    level = device.batteryLevel
+
+    if level == -1
+      "---%"
+    else
+      percent = (100 * level)
+      "%d%" % percent
+    end
+  end
+
+  def battery_state(battery_state)
+    case battery_state
+    when UIDeviceBatteryStateUnknown
+      "Unknown"
+    when UIDeviceBatteryStateUnplugged
+      "Unplugged"
+    when UIDeviceBatteryStateCharging
+      "Charging"
+    when UIDeviceBatteryStateFull
+      "Full"
+    else
+      "Undefined"
+    end
   end
 end

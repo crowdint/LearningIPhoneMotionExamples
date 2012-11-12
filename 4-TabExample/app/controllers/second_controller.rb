@@ -1,4 +1,10 @@
 class SecondController < UIViewController
+  def initWithNibName(nib_name, bundle: bundle)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Second", image: nil, tag: 0)
+
+    super
+  end
+
   def viewDidLoad
     self.view.backgroundColor = UIColor.whiteColor
 

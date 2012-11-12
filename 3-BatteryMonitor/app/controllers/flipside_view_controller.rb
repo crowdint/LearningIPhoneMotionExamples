@@ -21,6 +21,7 @@ class FlipsideViewController < UIViewController
     # The switch
     @toggle_switch    = UISwitch.alloc.initWithFrame([[223, 82], [79, 27]])
     @toggle_switch.on = App.delegate.monitor_battery
+    @toggle_switch.accessibilityLabel = 'monitor switch'
 
     self.view.addSubview(label)
     self.view.addSubview(nav_bar)
@@ -29,6 +30,7 @@ class FlipsideViewController < UIViewController
 
   # Target Action for the Done button on the Navigation Bar
   def done
+    p @toggle_switch.on?
     App.delegate.monitor_battery = @toggle_switch.on?
     App.delegate.main_view_controller.flipside_view_controller_did_finish(self)
   end

@@ -1,4 +1,4 @@
-# CityGuide
+# Utility Application Example
 
 Example Utility Application as described on Chapter 6 of the
 [Learning iPhone Programming](http://learningiphoneprogramming.com/)

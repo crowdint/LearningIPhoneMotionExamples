@@ -2,10 +2,11 @@ class AddNewCityController < UIViewController
   def viewDidLoad
     self.title = "Add New City"
 
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem.
-        alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemSave, target: self, action: "save_city:")
+    navigation_bar = UINavigationBar.alloc.initWithFrame([[0, 0], [self.view.bounds.size.width, 44]])
+    navigation_title = UINavigationItem.alloc.initWithTitle "Add New City"
+    navigation_bar.pushNavigationItem navigation_title
 
-    @table_view = UITableView.alloc.initWithFrame(self.view.bounds)
+    @table_view = UITableView.alloc.initWithFrame([[0, navigation_bar.frame.size.height],[self.view.bounds.size.width, self.view.bounds.size.height - navigation_bar.frame.size.height]])
     @table_view.dataSource = self
     @table_view.delegate   = self
 
@@ -33,6 +34,7 @@ class AddNewCityController < UIViewController
     @description_cell.addSubview(@description_input)
 
     self.view.addSubview(@table_view)
+    self.view.addSubview(navigation_bar)
   end
 
   def tableView(tableView, numberOfRowsInSection:section)
@@ -67,6 +69,6 @@ class AddNewCityController < UIViewController
       App.delegate.root_controller.table_view.reloadData
     end
 
-    navigationController.popViewControllerAnimated(true)
+    self.dismissModalViewControllerAnimated true
   end
 end

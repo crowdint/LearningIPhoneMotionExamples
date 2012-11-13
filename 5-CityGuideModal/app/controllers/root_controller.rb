@@ -11,7 +11,14 @@ class RootController < UIViewController
     self.view.addSubview self.table_view
 
     self.table_view.allowsSelectionDuringEditing = true
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.
+        initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target: self, action: "add_city:")
     self.title = "City Guide"
+  end
+
+  def add_city(sender)
+    add_city_controller = AddNewCityController.alloc.init
+    self.presentModalViewController add_city_controller, animated: true
   end
 
   # DataSource methods

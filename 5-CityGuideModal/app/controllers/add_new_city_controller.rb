@@ -39,6 +39,7 @@ class AddNewCityController < UIViewController
 
     @picture_button       = UIButton.buttonWithType UIButtonTypeContactAdd
     @picture_button.frame = [[274, 25], [29, 29]]
+    @picture_button.addTarget self, action: "add_picture:", forControlEvents:UIControlEventTouchUpInside
 
     @picture_cell.addSubview @picture_view
     @picture_cell.addSubview @picture_button
@@ -59,6 +60,12 @@ class AddNewCityController < UIViewController
 
     self.view.addSubview(@table_view)
     self.view.addSubview(navigation_bar)
+
+    # Picker Controller
+    @picker_controller = UIImagePickerController.alloc.init
+    @picker_controller.allowsImageEditing = false
+    @picker_controller.delegate = self
+    @picker_controller.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum
   end
 
   def tableView(tableView, numberOfRowsInSection:section)
@@ -92,12 +99,25 @@ class AddNewCityController < UIViewController
 
     if @name_input.text.size > 0
       city = City.alloc.init
-      city.name = @name_input.text
+      city.name        = @name_input.text
       city.description = @description_input.text
+      city.picture     = @picture_view.image
       cities << city
       App.delegate.root_controller.table_view.reloadData
     end
 
     self.dismissModalViewControllerAnimated true
+  end
+
+  def add_picture(sender)
+    self.presentModalViewController @picker_controller, animated:true
+  end
+
+  # Image Picker Controller delegate methods
+  def imagePickerController(picker, didFinishPickingMediaWithInfo:info)
+    self.dismissModalViewControllerAnimated true
+    city_picture = info["UIImagePickerControllerOriginalImage"]
+    @picture_view.image = city_picture
+    @table_view.reloadData
   end
 end

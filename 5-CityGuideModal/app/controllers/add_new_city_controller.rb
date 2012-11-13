@@ -2,9 +2,12 @@ class AddNewCityController < UIViewController
   def viewDidLoad
     self.title = "Add New City"
 
-    navigation_bar = UINavigationBar.alloc.initWithFrame([[0, 0], [self.view.bounds.size.width, 44]])
-    navigation_title = UINavigationItem.alloc.initWithTitle "Add New City"
+    navigation_bar                      = UINavigationBar.alloc.initWithFrame([[0, 0], [self.view.bounds.size.width, 44]])
+    navigation_title                    = UINavigationItem.alloc.initWithTitle "Add New City"
+    done_button                         = UIBarButtonItem.alloc.initWithTitle("Done", style: UIBarButtonItemStyleDone, target: self, action: "save_city:")
+    navigation_title.rightBarButtonItem = done_button
     navigation_bar.pushNavigationItem navigation_title
+
 
     @table_view = UITableView.alloc.initWithFrame([[0, navigation_bar.frame.size.height],[self.view.bounds.size.width, self.view.bounds.size.height - navigation_bar.frame.size.height]])
     @table_view.dataSource = self

@@ -13,6 +13,7 @@ class AddNewCityController < UIViewController
     @table_view.dataSource = self
     @table_view.delegate   = self
 
+    # Name Cell
     @name_cell  = UITableViewCell.alloc.initWithFrame([[0, 0], [320, 44]])
 
     name_label = UILabel.alloc.initWithFrame([[10, 11], [42, 21]])
@@ -25,6 +26,26 @@ class AddNewCityController < UIViewController
     @name_cell.addSubview(@name_input)
     @name_cell.setSelectionStyle UITableViewCellSelectionStyleNone
 
+    # Picture Cell
+    @picture_cell = UITableViewCell.alloc.init
+    @picture_cell.setSelectionStyle UITableViewCellSelectionStyleNone
+
+    picture_label      = UILabel.alloc.initWithFrame [[10, 28], [126, 21]]
+    picture_label.text = "Add a Picture:"
+
+    @picture_view             = UIImageView.alloc.initWithFrame [[186, 7], [83, 63]]
+    @picture_view.image       = UIImage.imageNamed("QuestionMark.jpg")
+    @picture_view.contentMode = UIViewContentModeScaleAspectFit
+
+    @picture_button       = UIButton.buttonWithType UIButtonTypeContactAdd
+    @picture_button.frame = [[274, 25], [29, 29]]
+
+    @picture_cell.addSubview @picture_view
+    @picture_cell.addSubview @picture_button
+    @picture_cell.addSubview picture_label
+
+
+    # Description Cell
     @description_cell = UITableViewCell.alloc.init
 
     description_label = UILabel.alloc.initWithFrame([[11, 1], [92, 21]])
@@ -41,7 +62,7 @@ class AddNewCityController < UIViewController
   end
 
   def tableView(tableView, numberOfRowsInSection:section)
-    2
+    3
   end
 
   def tableView(table_view, cellForRowAtIndexPath:index_path)
@@ -49,15 +70,20 @@ class AddNewCityController < UIViewController
     when 0
       @name_cell
     when 1
+      @picture_cell
+    when 2
       @description_cell
     end
   end
 
   def tableView(table_view, heightForRowAtIndexPath:index_path)
-    if index_path.row == 1
-      362
-    else
+    case index_path.row
+    when 0
       44
+    when 1
+      83
+    when 2
+      279
     end
   end
 

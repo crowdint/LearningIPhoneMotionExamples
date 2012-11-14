@@ -4,6 +4,7 @@ class AppDelegate
     window.makeKeyAndVisible
 
     controller = PrototypeViewController.alloc.initWithNibName(nil, bundle: nil)
+
     window.rootViewController = controller
 
     true

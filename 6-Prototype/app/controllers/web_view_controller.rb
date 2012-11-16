@@ -39,4 +39,12 @@ class WebViewController < UIViewController
     @web_view.stopLoading
     super
   end
+
+  def webViewDidStartLoad(wv)
+    UIApplication.sharedApplication.networkActivityIndicatorVisible = true
+  end
+
+  def webViewDidFinishLoad(wv)
+    UIApplication.sharedApplication.networkActivityIndicatorVisible = false
+  end
 end

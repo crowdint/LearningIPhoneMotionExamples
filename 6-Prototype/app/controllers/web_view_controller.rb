@@ -47,4 +47,23 @@ class WebViewController < UIViewController
   def webViewDidFinishLoad(wv)
     UIApplication.sharedApplication.networkActivityIndicatorVisible = false
   end
+
+  def webView(wv, didFailLoadWithError: error)
+    UIApplication.sharedApplication.networkActivityIndicatorVisible = false
+    error_string = error.localizedDescription
+    error_title = "Error #{error.code}"
+
+    error_view = UIAlertView.alloc.
+        initWithTitle(error_title,
+                      message: error_string,
+                      delegate: self,
+                      cancelButtonTitle: nil,
+                      otherButtonTitles: "OK", nil)
+
+    error_view.show
+  end
+
+  def didPresentAlertView(alert_view)
+    self.dismissModalViewControllerAnimated true
+  end
 end

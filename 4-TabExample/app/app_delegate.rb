@@ -1,7 +1,7 @@
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
-    window.makeKeyAndVisible
+    @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    @window.makeKeyAndVisible
 
     first_controller  = FirstController.alloc.initWithNibName(nil, bundle:nil)
     second_controller = SecondController.alloc.initWithNibName(nil, bundle:nil)
@@ -11,7 +11,7 @@ class AppDelegate
 
     controller.viewControllers = [ first_controller, second_controller, third_controller ]
 
-    window.rootViewController = controller
+    @window.rootViewController = controller
     true
   end
 end

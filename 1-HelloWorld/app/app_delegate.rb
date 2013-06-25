@@ -1,11 +1,11 @@
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
-    window.makeKeyAndVisible
-    
+    @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+
     controller = HelloWorldController.alloc.initWithNibName(nil, bundle:nil)
 
-    window.rootViewController = controller
+    @window.rootViewController = controller
+    @window.makeKeyAndVisible
 
     true
   end
